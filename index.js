@@ -23,6 +23,12 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
+
+    const database = client.db('PetHouse')
+    const petCollection = database.collection('petList')
+
+
+    
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     );
