@@ -24,11 +24,14 @@ async function run() {
   try {
     await client.connect();
 
-    const database = client.db('PetHouse')
-    const petCollection = database.collection('petList')
+    const database = client.db('PetHouse');
+    const petCollection = database.collection('petList');
 
+    app.get('/petlist', async (req, res) => {
+      const result = await petCollection.find().toArray();
+      res.send(result);
+    });
 
-    
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     );
