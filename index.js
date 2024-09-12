@@ -2,18 +2,15 @@ import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 const port = process.env.PORT || 5000;
 const app = express();
 dotenv.config();
 
 // middleware
-app.use(express());
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(cors());
 
 const uri = process.env.DB_URL;
 
@@ -50,12 +47,9 @@ async function run() {
     // update route for single pet
     app.patch('/petlist/:id', async (req, res) => {
       const id = req.params.id;
-      const update = req.body;
-
+      const update = req.body; 
       const result = await petCollection.updateOne(
-        {
-          _id: new ObjectId(id),
-        },
+        { _id: new ObjectId(id) }, 
         { $set: update }
       );
       res.send(result);
